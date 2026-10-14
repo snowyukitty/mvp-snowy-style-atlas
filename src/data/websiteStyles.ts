@@ -43,7 +43,8 @@ export type WebsiteStyle = {
       | "marketplace-search"
       | "open-source-kit"
       | "curated-gallery"
-      | "saas-patterns";
+      | "saas-patterns"
+      | "diary-index";
     kicker: string;
     headline: string;
     subhead: string;
@@ -938,7 +939,7 @@ export const websiteStyles: WebsiteStyle[] = [
       primaryAction: "Open atlas",
       secondaryAction: "Add source",
       metrics: [
-        { label: "Patterns", value: "12" },
+        { label: "Patterns", value: "13" },
         { label: "Sources", value: "30+" },
         { label: "Filters", value: "5" }
       ],
@@ -1050,6 +1051,93 @@ export const websiteStyles: WebsiteStyle[] = [
     ],
     starterPrompt:
       "Create a SaaS pattern directory with filters for section type, complexity, and tone. Include comparison cards for landing, pricing, onboarding, dashboards, and empty states, each with source links and implementation notes."
+  },
+  {
+    id: "wsa-013",
+    title: "Quiet Ritual Diary",
+    category: "Editorial Ritual",
+    fit: "Song archives, event diaries, anniversaries, fan essays, small-venue guides",
+    summary:
+      "A page built around one rule instead of a feature grid: a numbered index of real links, a single accent that means one thing, Japanese type as the layout, and motion that is optional because the document already reads.",
+    tags: ["diary", "editorial", "Japanese type", "seal index", "no-JS"],
+    tone: "Quiet",
+    complexity: "MVP",
+    score: 94,
+    referenceLinks: [
+      {
+        label: "NITTOH 100 PICNIC",
+        url: "https://100th.nittoh-tea.com/",
+        why: "A centenary told as numbered actions: a repeated seal, a number, and a real essay behind every row."
+      },
+      {
+        label: "odeco",
+        url: "https://odeco.life/",
+        why: "Fifty-four songs sorted into six places, with a skip link, a plain track list and the AI disclosure stated on the page."
+      },
+      {
+        label: "ishikawa.co",
+        url: "https://ishikawa.co/en/",
+        why: "A walked character on top, and the publications still sitting in the HTML underneath: the fallback is the part worth studying."
+      },
+      {
+        label: "Anime.js",
+        url: "https://animejs.com/",
+        why: "Shows one scroll-synced SVG draw in a few lines. Study the idea; do not adopt the library for it."
+      }
+    ],
+    githubLinks: [],
+    sourceNotes: [
+      "Derived from docs/research-expressive-sites-2026-10.md: the taste model and the five techniques.",
+      "Study the behavior, then redraw and rewrite everything. No asset, font or copy from the reference sites is reusable.",
+      "Live demos in public/demos (seal-index, scroll-draw-path) were checked at 390px and under reduced motion in Chromium only; Safari and Firefox are untested."
+    ],
+    visual: {
+      background: "#f3eee2",
+      surface: "#fbf7ee",
+      ink: "#2b2622",
+      accent: "#b0301b",
+      secondary: "#5d554b",
+      layout: "One column on phones, two columns of numbered rows from 48rem, notes below as link targets",
+      typeScale: "Japanese serif headings with proportional kana, a small Latin caption, system fonts only",
+      motion: "None required; an optional entrance and a scroll-drawn path, both removed under reduced motion",
+      density: "Airy"
+    },
+    demo: {
+      kind: "diary-index",
+      kicker: "Seal index",
+      headline: "One number, one title, one paragraph",
+      subhead: "Every row is a real link, so the page reads with script and motion off.",
+      primaryAction: "Open an entry",
+      secondaryAction: "Back to index",
+      metrics: [
+        { label: "Accent", value: "1" },
+        { label: "Scripts", value: "0" },
+        { label: "Images", value: "0" }
+      ],
+      modules: ["一", "二", "三", "四", "五", "六"]
+    },
+    sections: [
+      "Masthead with a one-sentence idea",
+      "Numbered seal index (ordered list of links)",
+      "Notes as same-page link targets",
+      "Provenance footer",
+      "Optional scroll-drawn route"
+    ],
+    techniques: [
+      "One idea per URL: say it in one sentence before designing anything.",
+      "One accent with one meaning (here: what you can open).",
+      "Draw the seal as inline SVG and roughen its edge with a shared feTurbulence and feDisplacementMap filter.",
+      "Use line-break: strict, word-break: auto-phrase and palt on Japanese headings only.",
+      "Gate every animation behind prefers-reduced-motion and @supports so the default state is the finished page."
+    ],
+    buildNotes: [
+      "Start from an ordered list of anchors, then add the seals; the index must work with CSS off.",
+      "Paper grain is an SVG noise tile in a CSS data URI, so there is no image file.",
+      "Scroll-driven animations are not default in Firefox; the drawn path must already be complete without them.",
+      "Re-check browser support against MDN browser-compat-data before relying on it; the support table in public/demos/README.md is from 2026-10-08."
+    ],
+    starterPrompt:
+      "Build a quiet diary page for a fictional song archive. One accent color that only marks what can be opened, an ordered list of eight real links each with a hand-drawn inline SVG number seal, Japanese serif headings with a small Latin caption, notes below as same-page link targets, system fonts only, no JavaScript. Any motion must be removed under prefers-reduced-motion and the page must read fully without it."
   }
 ];
 

@@ -26,6 +26,12 @@ One SVG path (`pathLength="1"`) that draws as you scroll, with an accent pin tra
 - Dim dotted track underneath, so the unfinished part is visible before the stroke reaches it.
 - The route is a fixed 120 by 600 box, scaled by half under 40rem.
 
+## Checked so far
+
+Chromium only, 2026-10-15: both pages at 390px have no horizontal overflow and `seal-index` is one column;
+under emulated `prefers-reduced-motion: reduce`, `scroll-draw-path` shows the finished route with the pin at the
+end and `seal-index` has no transitions. Safari, Firefox, keyboard-only and screen-reader passes have not been run.
+
 ## Browser support
 
 From MDN `browser-compat-data` 8.1.5 (2026-10-08), as recorded in `docs/research-effects-2026-10.md`.

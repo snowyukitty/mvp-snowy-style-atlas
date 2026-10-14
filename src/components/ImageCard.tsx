@@ -181,6 +181,30 @@ function PreviewBody({ item }: { item: WebsiteStyle }) {
     );
   }
 
+  if (item.demo.kind === "diary-index") {
+    return (
+      <div className="flex flex-1 flex-col justify-between gap-4">
+        <div>
+          <p className="font-serif text-2xl font-black leading-tight">{item.demo.headline}</p>
+          <p className="mt-2 max-w-xs text-xs leading-5 opacity-75">{item.demo.subhead}</p>
+        </div>
+        <ol className="grid grid-cols-2 gap-x-4 border-t border-[var(--demo-ink)]/20">
+          {item.demo.modules.slice(0, 6).map((module) => (
+            <li key={module} className="flex items-center gap-3 border-b border-[var(--demo-ink)]/20 py-2">
+              <span
+                aria-hidden="true"
+                className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--demo-accent)] font-serif text-sm font-bold text-[var(--demo-bg)]"
+              >
+                {module}
+              </span>
+              <span className="h-1.5 flex-1 rounded-full bg-[var(--demo-ink)]/15" />
+            </li>
+          ))}
+        </ol>
+      </div>
+    );
+  }
+
   if (item.demo.kind === "curated-gallery" || item.demo.kind === "saas-patterns") {
     return (
       <div className="grid flex-1 grid-cols-3 gap-2">
