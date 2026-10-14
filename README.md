@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Website Style Atlas
 
-## Getting Started
+A Next.js atlas of website MVP patterns distilled from high-craft product sites,
+curated design galleries, and source-readable GitHub templates.
 
-First, run the development server:
+The project is intended as a practical starting point for future website builds:
+each entry includes reference links, visual tokens, section recipes,
+implementation notes, and a starter prompt.
+
+## Current Scope
+
+- 12 researched website patterns across SaaS, fintech, developer platforms,
+  marketplaces, product launches, galleries, and open-source templates.
+- Filterable atlas UI with category, tone, complexity, sorting, grid/compact views,
+  live CSS previews, and detail studies.
+- Research notes in `docs/research.md`, plus the October 2026 follow-up:
+  expressive Japanese and international site teardowns
+  (`docs/research-expressive-sites-2026-10.md`) and an advanced web effects
+  guide with a verified browser support table
+  (`docs/research-effects-2026-10.md`). The `*-agy.md` and `*-grok.md` files are
+  the raw delegate reports, kept as evidence and marked untrusted.
+- Two static effect demos in `public/demos/` (`seal-index`, `scroll-draw-path`),
+  served as plain files with no build step. See `public/demos/README.md`.
+- Where to pick up next: `docs/handoff.md`.
+
+## Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The configured local URL is:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:9913
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Verification
 
-## Learn More
+```bash
+npm run lint
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Adding A Pattern
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Add a new object to `src/data/websiteStyles.ts` with:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- reference sites and GitHub/template sources
+- fit, tone, complexity, tags, and score
+- visual tokens
+- MVP sections, techniques, build notes, and starter prompt
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Keep entries practical: the goal is not to clone a site, but to capture the
+design and implementation decisions that make a strong MVP easier to build.

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>夜汽車の歌日記 — Numbered seal index (demo)</title>
+<meta name="description" content="A fictional song diary used to demonstrate a numbered seal index: ordered list, real links, inline-SVG seals, no JavaScript.">
+<style>
+  :root {
+    --paper: #f3eee2;
+    --ink: #2b2622;
+    --ink-soft: #5d554b;
+    --rule: #cfc6b4;
+    /* One accent, one meaning: vermilion marks something you can open. */
+    --accent: #b0301b;
+
+    --serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "Source Han Serif JP", "MS PMincho", serif;
+    --sans: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Noto Sans JP", Meiryo, system-ui, sans-serif;
+
+    /* Paper grain: an SVG noise tile as a data URI. No image file, no JS. */
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E");
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--grain), var(--paper);
+    font-family: var(--sans);
+    font-size: 1rem;
+    line-height: 1.9;
+    line-break: strict;
+    word-break: auto-phrase;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+
+  .wrap {
+    max-width: 62rem;
+    margin-inline: auto;
+    padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem) 4rem;
+  }
+
+  /* ---------- masthead ---------- */
+  .mast { margin-bottom: clamp(2.5rem, 7vw, 4.5rem); }
+
+  .eyebrow, .cap, .date {
+    font-family: var(--sans);
+    font-size: .75rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .eyebrow { margin: 0 0 1rem; color: var(--ink-soft); }
+
+  h1, h2, .title {
+    font-family: var(--serif);
+    font-weight: 600;
+    /* Proportional kana, Japanese headings only. */
+    font-feature-settings: "palt";
+  }
+
+  h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.25rem, 7.5vw, 4.25rem);
+    line-height: 1.25;
+    letter-spacing: .04em;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin: 0;
+    max-inline-size: 34em;
+    color: var(--ink-soft);
+    text-wrap: pretty;
+  }
+
+  /* ---------- the index ---------- */
+  h2 {
+    margin: 0 0 1.25rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1.125rem;
+    letter-spacing: .12em;
+  }
+
+  .index {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: clamp(2rem, 5vw, 3.5rem);
+  }
+  @media (min-width: 48rem) {
+    .index { grid-template-columns: 1fr 1fr; }
+  }
+
+  .index > li { border-bottom: 1px solid var(--rule); }
+
+  .index a {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    column-gap: 1.1rem;
+    padding: 1.35rem .25rem 1.4rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .seal {
+    width: 3rem;
+    height: 3rem;
+    margin-top: .1rem;
+    color: var(--accent);
+    rotate: var(--r, 0deg);
+    transition: rotate .35s ease;
+  }
+  .seal text {
+    fill: var(--paper);
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 700;
+  }
+
+  .date { display: block; color: var(--ink-soft); }
+  .title {
+    display: block;
+    margin-top: .1rem;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    letter-spacing: .05em;
+    text-wrap: balance;
+  }
+  .cap { display: block; color: var(--ink-soft); margin-bottom: .45rem; }
+  .desc { display: block; font-size: .9375rem; line-height: 1.85; max-inline-size: 26em; text-wrap: pretty; }
+
+  .index a:hover .title,
+  .index a:focus-visible .title { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: .3em; }
+  .index a:hover .seal { rotate: 0deg; }
+
+  a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* A tiny CSS-only entrance. Browsers without @starting-style just show the list. */
+  @media (prefers-reduced-motion: no-preference) {
+    .index > li {
+      transition: opacity .7s ease, translate .7s ease;
+      transition-delay: calc(var(--i, 0) * 70ms);
+    }
+    @starting-style {
+      .index > li { opacity: 0; translate: 0 .6rem; }
+    }
+  }
+
+  /* ---------- notes (link targets) ---------- */
+  .notes { margin-top: clamp(3rem, 8vw, 5.5rem); }
+  .note {
+    max-inline-size: 36em;
+    margin: 0 0 1.75rem;
+    padding: .25rem 0 .25rem 1.1rem;
+    border-left: 2px solid transparent;
+    scroll-margin-top: 1.5rem;
+  }
+  .note:target { border-left-color: var(--accent); }
+  .note h3 {
+    margin: 0;
+    font: 600 1.0625rem/1.6 var(--serif);
+    font-feature-settings: "palt";
+    letter-spacing: .05em;
+  }
+  .note p { margin: .15rem 0 0; font-size: .9375rem; }
+  .back { display: inline-block; margin-top: .35rem; font-size: .8125rem; color: var(--ink-soft); letter-spacing: .08em; }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-size: .8125rem;
+  }
+
+  .sr-filter { position: absolute; width: 0; height: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+
+<!-- Shared filter that roughens the edge of every seal like an inked stamp. -->
+<svg class="sr-filter" aria-hidden="true" focusable="false">
+  <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="7" result="t"/>
+    <feDisplacementMap in="SourceGraphic" in2="t" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<div class="wrap">
+  <header class="mast">
+    <p class="eyebrow" lang="en">Demo · Numbered seal index</p>
+    <h1>夜汽車の歌日記</h1>
+    <p class="lede">ひと晩に一曲ずつ、窓の外を眺めながら書きためた八つの歌の記録です。朱の印がついた行は、どれもひらいて読めます。（この日記は架空のサンプルです。）</p>
+  </header>
+
+  <main>
+    <h2 id="index">目次 <span class="cap" lang="en" style="display:inline;margin-left:.6em">Index</span></h2>
+
+    <ol class="index" role="list">
+      <li style="--i:0"><a href="#note-01">
+        <svg class="seal" style="--r:-3deg" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="24" r="18.4" fill="none" stroke="#f3eee2" stroke-width="1.1"/></g><text x="24" y="31.5" text-anchor="middle">一</text></svg>
+        <span><span class="date" lang="en">2026.04.03</span><span class="title">朝のホーム</span><span class="cap" lang="en">Morning platform</span><span class="desc">始発を待つあいだ、ハミングで書いた最初の四小節。</span></span>
+      </a></li>
+      <li style="--i:1"><a href="#note-02">
+        <svg class="seal" style="--r:2deg" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="24" r="18.4" fill="none" stroke="#f3eee2" stroke-width="1.1"/></g><text x="24" y="31.5" text-anchor="middle">二</text></svg>
+        <span><span class="date" lang="en">2026.04.19</span><span class="title">雨のあとで</span><span class="cap" lang="en">After the rain</span><span class="desc">傘をたたむ音をリズムにした、短いワルツ。</span></span>
+      </a></li>
+      <li style="--i:2"><a href="#note-03">
+        <svg class="seal" style="--r:-1deg" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="24" r="18.4" fill="none" stroke="#f3eee2" stroke-width="1.1"/></g><text x="24" y="31.5" text-anchor="middle">三</text></svg>
+        <span><span class="date" lang="en">2026.05.07</span><span class="title">灯りをひとつ</span><span class="cap" lang="en">One lamp</span><span class="desc">電球ひとつの部屋で録った、いちばん静かな歌。</span></span>
+      </a></li>
+      <li style="--i:3"><a href="#note-04">
+        <svg class="seal" style="--r:3deg" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="24" r="18.4" fill="none" stroke="#f3eee2" stroke-width="1.1"/></g><text x="24" y="31.5" text-anchor="middle">四</text></svg>
+        <span><span class="date" lang="en">2026.05.28</span><span class="title">遠回りの道</span><span class="cap" lang="en">The long way round</span><span class="desc">帰り道をわざと延ばした日の、歩く速さの曲。</span></span>
+      </a></li>
+      <li style="--i:4"><a href="#note-05">
+        <svg class="seal" style="--r:-2deg" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="24" r="18.4" fill="none" stroke="#f3eee2" stroke-width="1.1"/></g><text x="24" y="31.5" text-anchor="middle">五</text></svg>
+        <span><span class="date" lang="en">2026.06.15</span><span class="title">紙ひこうき</span><span class="cap" lang="en">Paper plane</span><span class="desc">折り目の数だけ転調する、小さな冒険。</span></span>
+      </a></li>
+      <li style="--i:5"><a href="#note-06">
+        <svg class="seal" style="--r:1deg" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="24" r="18.4" fill="none" stroke="#f3eee2" stroke-width="1.1"/></g><text x="24" y="31.5" text-anchor="middle">六</text></svg>
+        <span><span class="date" lang="en">2026.08.21</span><span class="title">蝉のあとに</span><span class="cap" lang="en">After the cicadas</span><span class="desc">鳴き声が止んだ夕方の、音のない部分を歌にした。</span></span>
+      </a></li>
+      <li style="--i:6"><a href="#note-07">
+        <svg class="seal" style="--r:-3deg" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="24" r="18.4" fill="none" stroke="#f3eee2" stroke-width="1.1"/></g><text x="24" y="31.5" text-anchor="middle">七</text></svg>
+        <span><span class="date" lang="en">2026.09.30</span><span class="title">窓辺の猫</span><span class="cap" lang="en">The cat at the window</span><span class="desc">日だまりが動くのに合わせて、少しずつ歩幅を変える。</span></span>
+      </a></li>
+      <li style="--i:7"><a href="#note-08">
+        <svg class="seal" style="--r:2deg" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="24" r="18.4" fill="none" stroke="#f3eee2" stroke-width="1.1"/></g><text x="24" y="31.5" text-anchor="middle">八</text></svg>
+        <span><span class="date" lang="en">2026.10.12</span><span class="title">また明日</span><span class="cap" lang="en">See you tomorrow</span><span class="desc">終点のひとつ手前で目を閉じる、短い子守歌。</span></span>
+      </a></li>
+    </ol>
+
+    <section class="notes" aria-labelledby="notes-h">
+      <h2 id="notes-h">ノート <span class="cap" lang="en" style="display:inline;margin-left:.6em">Notes</span></h2>
+
+      <article class="note" id="note-01"><h3>一　朝のホーム</h3><p>始発の五分前、ホームには自分のほかに誰もいなかった。吐く息の白さに合わせて、四小節だけ書いた。</p><a class="back" href="#index">↑ 目次へ</a></article>
+      <article class="note" id="note-02"><h3>二　雨のあとで</h3><p>傘をたたむ「ぱん」という音が、三拍子の一拍目にちょうどよかった。濡れた駅の床が少し明るい。</p><a class="back" href="#index">↑ 目次へ</a></article>
+      <article class="note" id="note-03"><h3>三　灯りをひとつ</h3><p>部屋の電気を消して、電球をひとつだけ点けた。音を足さないことを、この日は決めていた。</p><a class="back" href="#index">↑ 目次へ</a></article>
+      <article class="note" id="note-04"><h3>四　遠回りの道</h3><p>いつもの角を曲がらずに、川沿いをもう一駅ぶん歩いた。テンポは歩幅と同じにした。</p><a class="back" href="#index">↑ 目次へ</a></article>
+      <article class="note" id="note-05"><h3>五　紙ひこうき</h3><p>折るたびに調が変わる曲を作ろうと思った。飛ばしてみたら、三歩で落ちた。それも曲に入れた。</p><a class="back" href="#index">↑ 目次へ</a></article>
+      <article class="note" id="note-06"><h3>六　蝉のあとに</h3><p>鳴いていたものが急に止むと、静けさにも形があるとわかる。その形を休符で書いた。</p><a class="back" href="#index">↑ 目次へ</a></article>
+      <article class="note" id="note-07"><h3>七　窓辺の猫</h3><p>日だまりは一時間でゆっくり床を渡る。猫はそのたびに少しだけ場所を変える。その繰り返しが曲の骨組み。</p><a class="back" href="#index">↑ 目次へ</a></article>
+      <article class="note" id="note-08"><h3>八　また明日</h3><p>終点の一つ手前で、目を閉じる。明日も同じ電車に乗るために。最後の小節は、わざと終わらせなかった。</p><a class="back" href="#index">↑ 目次へ</a></article>
+    </section>
+  </main>
+
+  <footer lang="en">
+    Fictional sample content. Technique: ordered list, real links, inline-SVG seals, system fonts, CSS-only paper grain. No JavaScript, no images, no third-party assets.
+  </footer>
+</div>
+
+</body>
+</html>

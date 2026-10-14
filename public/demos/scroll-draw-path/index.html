@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>峠へ、夜明け前 — Scroll-drawn path (demo)</title>
+<meta name="description" content="A fictional walk used to demonstrate one SVG path that draws as you scroll, using CSS scroll-driven animations only. No JavaScript.">
+<style>
+  :root {
+    --ground: #15171c;
+    --text: #e8e3d6;
+    --muted: #a8a295;
+    --track: rgba(232, 227, 214, .3);
+    /* One accent, one meaning: the pin is where you are on the route. */
+    --accent: #f08a62;
+
+    --serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "Source Han Serif JP", "MS PMincho", serif;
+    --sans: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Noto Sans JP", Meiryo, system-ui, sans-serif;
+
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .88 0 0 0 0 .82 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    color: var(--text);
+    background: var(--grain), var(--ground);
+    font-family: var(--sans);
+    line-height: 2;
+    line-break: strict;
+    word-break: auto-phrase;
+  }
+
+  .eyebrow, .cap {
+    font-size: .75rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  h1, h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-feature-settings: "palt";
+    text-wrap: balance;
+  }
+
+  .top {
+    max-width: 52rem;
+    margin-inline: auto;
+    padding: clamp(2.5rem, 8vw, 6rem) clamp(1.25rem, 5vw, 2rem) 2rem;
+  }
+  .top .eyebrow { margin: 0 0 1rem; }
+  h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.25rem, 8vw, 4.25rem);
+    line-height: 1.25;
+    letter-spacing: .05em;
+  }
+  .lede { margin: 0; max-inline-size: 30em; color: var(--muted); text-wrap: pretty; }
+
+  /* ---------- layout: route column + essay ---------- */
+  .page {
+    max-width: 52rem;
+    margin-inline: auto;
+    padding: 1rem clamp(1.25rem, 5vw, 2rem) 6rem;
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 36rem);
+    column-gap: 2.5rem;
+  }
+
+  .route-col {
+    position: sticky;
+    top: 1.5rem;
+    align-self: start;
+    width: 120px;
+    height: 600px;
+  }
+
+  /* The route is a fixed 120 x 600 box; on narrow screens the whole box is scaled. */
+  .route {
+    position: relative;
+    width: 120px;
+    height: 600px;
+    transform-origin: top left;
+  }
+  .route svg { display: block; overflow: visible; }
+
+  /* Default state, with no scroll-driven animation support: the path is drawn in full
+     and the pin sits at the end. Nothing is hidden. */
+  .track  { fill: none; stroke: var(--track); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: .004 .0135; }
+  .stroke { fill: none; stroke: var(--text); stroke-width: 2; stroke-linecap: butt; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .wp     { fill: var(--ground); stroke: var(--muted); stroke-width: 1.25; }
+  .wp-n   { fill: var(--muted); font: 13px var(--serif); text-anchor: start; }
+
+  .pin {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    offset-path: path("M60 12 C98 46 98 94 60 130 S22 214 60 250 S98 334 60 370 S22 454 60 490 S90 560 60 588");
+    offset-distance: 100%;
+    offset-rotate: 0deg;
+  }
+
+  @media (max-width: 40rem) {
+    .page { grid-template-columns: 3.75rem minmax(0, 1fr); column-gap: 1.1rem; }
+    .route-col { width: 60px; height: 300px; top: 1rem; }
+    .route { transform: scale(.5); }
+    .wp-n { display: none; }  /* the numerals would render at about 6px */
+  }
+
+  /* ---------- the essay ---------- */
+  .essay section { margin: 0 0 3.5rem; }
+  .essay h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    letter-spacing: .06em;
+  }
+  .essay .cap { margin: 0 0 .75rem; }
+  .essay p { margin: 0 0 1rem; text-wrap: pretty; }
+
+  footer {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 1.25rem clamp(1.25rem, 5vw, 2rem) 3rem;
+    border-top: 1px solid rgba(232, 227, 214, .18);
+    color: var(--muted);
+    font-size: .8125rem;
+    line-height: 1.8;
+  }
+
+  /* ---------- scroll-driven drawing ----------
+     Animations exist only when the browser supports scroll timelines AND the visitor has not
+     asked for reduced motion. Everywhere else the default state above is the finished drawing. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      @keyframes draw   { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+      @keyframes travel { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+      .stroke {
+        animation: draw linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0% 92%;
+      }
+      .pin {
+        animation: travel linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0% 92%;
+      }
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <p class="eyebrow" lang="en">Demo · One SVG path that draws as you scroll</p>
+  <h1>峠へ、夜明け前</h1>
+  <p class="lede">暗いうちに麓の駅を出て、朝の光が届く稜線まで歩く。六つの地点を、左の一本の線でたどります。（この記録は架空のサンプルです。）</p>
+</header>
+
+<div class="page">
+  <aside class="route-col" aria-hidden="true">
+    <div class="route">
+      <svg width="120" height="600" viewBox="0 0 120 600" focusable="false">
+        <path class="track"  pathLength="1" d="M60 12 C98 46 98 94 60 130 S22 214 60 250 S98 334 60 370 S22 454 60 490 S90 560 60 588"/>
+        <path class="stroke" pathLength="1" d="M60 12 C98 46 98 94 60 130 S22 214 60 250 S98 334 60 370 S22 454 60 490 S90 560 60 588"/>
+        <g>
+          <circle class="wp" cx="60" cy="12"  r="4.5"/><text class="wp-n" x="72" y="16">一</text>
+          <circle class="wp" cx="60" cy="130" r="4.5"/><text class="wp-n" x="72" y="134">二</text>
+          <circle class="wp" cx="60" cy="250" r="4.5"/><text class="wp-n" x="72" y="254">三</text>
+          <circle class="wp" cx="60" cy="370" r="4.5"/><text class="wp-n" x="72" y="374">四</text>
+          <circle class="wp" cx="60" cy="490" r="4.5"/><text class="wp-n" x="72" y="494">五</text>
+          <circle class="wp" cx="60" cy="588" r="4.5"/><text class="wp-n" x="72" y="592">六</text>
+        </g>
+      </svg>
+      <span class="pin"></span>
+    </div>
+  </aside>
+
+  <main class="essay">
+    <section>
+      <h2>一　麓の駅</h2>
+      <p class="cap" lang="en">The station below</p>
+      <p>午前三時四十分。無人の改札を抜けると、空気は冷たく、乾いていた。ホームの時計だけが明るい。</p>
+      <p>荷物は軽くした。水と、パンと、地図を一枚。地図には、これから歩く道が細い線で引いてある。</p>
+    </section>
+    <section>
+      <h2>二　杉の道</h2>
+      <p class="cap" lang="en">The cedar road</p>
+      <p>舗装が途切れると、道は杉の林に入る。足もとは見えないが、土の柔らかさでまだ登りが続くとわかる。</p>
+      <p>ヘッドライトの輪の中に、落ち葉と根っこだけが次々に現れては消える。世界はその丸い範囲だけになった。</p>
+    </section>
+    <section>
+      <h2>三　水の音</h2>
+      <p class="cap" lang="en">The sound of water</p>
+      <p>沢にかかる小さな橋で立ち止まる。水の音は暗闇のなかでいちばん正確な目印だった。</p>
+      <p>しばらく耳だけで歩いた。音が遠ざかるほど、自分が高いところへ来たことがわかる。</p>
+    </section>
+    <section>
+      <h2>四　霧のなか</h2>
+      <p class="cap" lang="en">In the mist</p>
+      <p>林を抜けると霧が出ていた。ライトの光が白い壁になって、それ以上は進まない。</p>
+      <p>ライトを消してみる。すると、空の端がほんの少しだけ青かった。夜は終わりかけていた。</p>
+    </section>
+    <section>
+      <h2>五　稜線</h2>
+      <p class="cap" lang="en">The ridge</p>
+      <p>稜線に出た途端、風が変わった。霧は谷へ流れ落ちていき、足もとに道がまっすぐ現れる。</p>
+      <p>あとは歩くだけだった。急がなくていい。光のほうが、こちらへ来てくれる。</p>
+    </section>
+    <section>
+      <h2>六　朝</h2>
+      <p class="cap" lang="en">Morning</p>
+      <p>峠の石の上に座って、持ってきたパンを半分に割った。最初の光が、地図の線の終わりに触れた。</p>
+      <p>来た道を振り返ると、さっきまで歩いていた暗がりが、いまはただの景色になっている。</p>
+    </section>
+  </main>
+</div>
+
+<footer lang="en">
+  Fictional sample content. Technique: one inline SVG path with <code>pathLength="1"</code>, <code>stroke-dashoffset</code> and
+  <code>offset-distance</code> driven by <code>animation-timeline: scroll()</code>. No JavaScript. Without scroll-timeline support,
+  or with reduced motion, the route is simply drawn in full.
+</footer>
+
+</body>
+</html>
