@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Playfair_Display, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
   variable: "--font-serif",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -13,8 +18,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Snowy Style Atlas",
-  description: "Vintage Art Atlas & AI Image Gallery",
+  title: "Website Style Atlas",
+  description: "A research-backed atlas of website MVP patterns, design references, and build recipes.",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -25,9 +38,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${playfair.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-serif selection:bg-foreground selection:text-background">
+      <body className="flex min-h-full flex-col font-sans selection:bg-foreground selection:text-background">
         {children}
       </body>
     </html>
