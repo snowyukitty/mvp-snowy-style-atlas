@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Website Style Atlas folded map W icon candidate</title>
+  <desc id="desc">A folded atlas map with a W-shaped route and copper checkpoint.</desc>
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="28" stdDeviation="28" flood-color="#18211d" flood-opacity="0.22"/>
+    </filter>
+    <linearGradient id="paper" x1="160" y1="96" x2="872" y2="912" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fffaf1"/>
+      <stop offset="1" stop-color="#e6eee8"/>
+    </linearGradient>
+  </defs>
+  <path filter="url(#softShadow)" fill="#18211d" d="M210 120h604c38 0 70 32 70 70v536c0 24-12 47-32 60L666 910a68 68 0 0 1-38 12H210c-38 0-70-32-70-70V190c0-38 32-70 70-70Z"/>
+  <path fill="url(#paper)" d="M234 168h556c26 0 46 21 46 46v485c0 16-8 31-21 40L644 851c-8 5-17 8-26 8H234c-26 0-46-21-46-46V214c0-25 20-46 46-46Z"/>
+  <path fill="#d9e5dd" d="M401 168h108v691H401zM617 168h28c23 0 42 19 42 42v641h-70z" opacity="0.92"/>
+  <path fill="#18211d" d="M756 168h34c26 0 46 21 46 46v485c0 16-8 31-21 40l-59 39V168Z" opacity="0.12"/>
+  <path fill="none" stroke="#18211d" stroke-width="58" stroke-linecap="round" stroke-linejoin="round" d="M271 342l118 300 123-214 123 214 118-300"/>
+  <circle cx="753" cy="342" r="55" fill="#b84f34"/>
+  <circle cx="753" cy="342" r="22" fill="#fffaf1"/>
+</svg>

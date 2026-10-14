@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Website Style Atlas compass grid icon candidate</title>
+  <desc id="desc">A precise atlas grid with a compass pointer and W-shaped negative route.</desc>
+  <defs>
+    <linearGradient id="ink" x1="148" y1="108" x2="880" y2="916" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#20302a"/>
+      <stop offset="1" stop-color="#101614"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="30" stdDeviation="28" flood-color="#18211d" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+  <path filter="url(#softShadow)" fill="url(#ink)" d="M512 104 872 252v520L512 920 152 772V252L512 104Z"/>
+  <path fill="none" stroke="#fffaf1" stroke-width="36" stroke-linecap="round" opacity="0.3" d="M304 260v508M512 180v680M720 260v508M196 382h632M196 544h632M196 706h632"/>
+  <path fill="#fffaf1" fill-rule="evenodd" d="M512 214 706 726 512 642 318 726 512 214Zm0 178-78 206 78-34 78 34-78-206Z"/>
+  <path fill="none" stroke="#b84f34" stroke-width="60" stroke-linecap="round" stroke-linejoin="round" d="M326 398l86 178 100-120 100 120 86-178"/>
+  <circle cx="512" cy="456" r="34" fill="#18211d"/>
+</svg>
