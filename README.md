@@ -9,7 +9,7 @@ implementation notes, and a starter prompt.
 
 ## Current Scope
 
-- 12 researched website patterns across SaaS, fintech, developer platforms,
+- 13 researched website patterns across SaaS, fintech, developer platforms,
   marketplaces, product launches, galleries, and open-source templates.
 - Filterable atlas UI with category, tone, complexity, sorting, grid/compact views,
   live CSS previews, and detail studies.
@@ -21,6 +21,9 @@ implementation notes, and a starter prompt.
   the raw delegate reports, kept as evidence and marked untrusted.
 - Two static effect demos in `public/demos/` (`seal-index`, `scroll-draw-path`),
   served as plain files with no build step. See `public/demos/README.md`.
+- [Readable, compact interfaces](docs/readable-interface-lessons.md): practical
+  lessons on information density, modular structure, mobile task flow, accurate
+  states and verification, with a reusable cross-project improvement prompt.
 - Where to pick up next: `docs/handoff.md`.
 
 ## Development

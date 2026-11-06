@@ -1,4 +1,28 @@
-# Handoff, 2026-10-15
+# Handoff
+
+## Documentation checkpoint, 2026-11-06
+
+- Objective: preserve reusable interface-design lessons in the atlas without
+  prescribing one layout for every website type.
+- Scope: `docs/readable-interface-lessons.md`, `README.md`, and this handoff.
+  The new guide records qualitative iteration lessons, decision tradeoffs,
+  verification guidance and a self-contained project prompt. The README links
+  it and corrects the existing pattern count to 13.
+- Evidence boundary: the source feedback is qualitative, not a usability study.
+  Examples are generalized; no source-project infrastructure or private data is
+  included. Application code, dependencies and deployment are unchanged.
+- Verification: all four local Markdown links resolve across the three changed
+  documents; code fences are balanced; `git diff --check` passes. A targeted
+  privacy scan and manual content review found no private source-project data
+  in the new guide. Build and browser checks were not run for this
+  documentation-only change; the October checks below remain historical.
+- Next: use the guide alongside a visual pattern when reviewing a real project;
+  gather that project's own before/after and task evidence. The October demo
+  improvements below remain open. The guide is repository documentation, not
+  a new page in the running atlas UI.
+- Coordination: project lease held during editing; release at checkpoint.
+
+## Application checkpoint, 2026-10-15
 
 Checkpoint after the October 2026 research and demo session, updated 2026-10-15.
 
