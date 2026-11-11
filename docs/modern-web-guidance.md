@@ -1,106 +1,141 @@
-# Modern web guidance for agents
+# Modern web guidance: project trial
 
-Verified on 2026-11-11. This project now requires a guidance lookup before web
-implementation through its root `AGENTS.md`. Fleet-wide skill installation is
-not part of this checkpoint.
+Trial owner: the project maintainer. Started 2026-11-11; review by 2026-11-25.
+Status: project-local implementation trial, not fleet adoption or a proven
+comparison of guided versus unguided agents.
 
-## Sources and purpose
+## Intended outcome
 
-[GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance)
-ships agent skills and a CLI for focused web-platform guidance. Its
-[upstream skill](https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/SKILL.md)
-defines search, retrieval, compatibility, and modernization workflows.
-Implementation source lives in
-[modern-web-guidance-src](https://github.com/GoogleChrome/modern-web-guidance-src).
+Build interfaces with correct semantics, usable interaction, restrained JavaScript,
+and preserved visual quality. GoogleChrome's
+[Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance) is
+technical evidence for choosing platform mechanisms. Product requirements,
+installed framework documentation, and observed behavior decide what ships.
+The atlas's visual references and readable-interface lessons remain relevant.
 
-Use this alongside the atlas's visual references and interface-design lessons.
-It helps choose platform mechanisms; it does not supply product direction,
-art direction, framework architecture, or proof that a finished interface works.
+Consult guidance for new or substantial interactive primitives, motion, forms,
+theming, or a UI dependency decision. Skip copy, data, minor styling and atlas
+content edits. Do not add obligatory credits sections to ordinary user replies.
+Record useful guide IDs and decisions in the implementation record, not repetitive
+process narration. An unavailable lookup does not justify guessing a new API:
+use verified framework/platform documentation and disclose the gap.
 
-## Repeatable project workflow
+## One local entry point
 
-The tested CLI is `modern-web-guidance@1.0.0`, requiring Node >=22; this host ran
-Node 24.18.0. Use the explicit version below for this checkpoint. Review upstream
-changes and repeat the smoke checks before updating the pin; do not leave this
-version frozen indefinitely or silently substitute `@latest` in automation.
-
-In PowerShell, set the variable in the same process that launches the command:
-
-```powershell
-$env:DISABLE_TELEMETRY = '1'
-npx.cmd -y modern-web-guidance@1.0.0 search 'animate scroll progress'
-npx.cmd -y modern-web-guidance@1.0.0 retrieve 'scroll-progress-indicator'
+```sh
+npm ci
+npm run mwg -- search "accessible modal dialog"
+npm run mwg -- retrieve "dialog"
 ```
 
-1. Search one capability at a time using a short generic action phrase. Do not
-   include private project names, customer data, source snippets, or credentials.
-2. Read matching guides in full, including any file written by the CLI when its
-   output is large. If results are irrelevant, rephrase once; do not invent IDs.
-3. Choose native primitives where suitable. Adapt vanilla examples to the
-   installed framework, SSR lifecycle, types, and component ownership rules.
-4. Check compatibility against the project's target. Default to Baseline Widely
-   available. Newer capabilities require feature detection and usable fallback
-   or graceful degradation. Recheck dated compatibility claims when they affect
-   a shipping decision; guidance and old project notes can become stale.
-5. Verify the actual behavior: keyboard and focus, reduced motion, responsive
-   layout, relevant browser engines, and established project checks. Report
-   untested browsers and behavior explicitly.
-6. Record guide IDs, the implementation choice, retained fallback, and evidence.
+`scripts/mwg.mjs` launches the installed CLI without a shell, forces
+`DISABLE_TELEMETRY=1` even if the parent sets another value, and verifies that the
+installed version matches the exact devDependency and integrity-bearing lockfile.
+It refuses installer/update commands and never auto-installs a missing package.
+Use this entry point instead of raw npx or an upstream auto-updating plugin.
+It is not a sandbox or a runtime rehash of installed files; `npm ci` verifies
+package acquisition against the lockfile. npm installation still uses the network.
 
-The upstream README says search uses a local index, but it also documents
-telemetry that includes search queries and retrieved guide IDs. Disable it.
-Initial npm package acquisition still uses the network. This is development
-tooling, not a production dependency or a hosted inference service.
+Reviewed package: `modern-web-guidance@1.0.0`, Node >=22 (confirmed in the installed
+manifest); local runtime Node 24.18.0. Bundled skill revision:
+`2026_11_09-5bcc021b`. Bundled SKILL.md SHA-256:
+`37d68a514c25066840299356e5857b750bec3cc27c0cf57dbe88369b051b573e`.
+The installed CLI reads its bundled guide index and guidance files.
+Source inspection shows `--skill-version` is used for update warnings and
+telemetry metadata; it does not select a remote guidance corpus. The npm pin
+therefore pins the bundled content as well as the CLI. These observations apply
+to this version, not future releases.
 
-## Modernization triage
+Before updating, review the package/skill changes and rerun search, retrieval,
+telemetry override and the relevant behavioral pilot. Update the lockfile,
+revision and review date together. No automatic update job was installed.
 
-Use the scan for a broad modernization audit, not every small component edit:
+## Implementation decisions
 
-```powershell
-$env:DISABLE_TELEMETRY = '1'
-npx.cmd -y modern-web-guidance@1.0.0 legacy-scan src --json
-npx.cmd -y modern-web-guidance@1.0.0 legacy-scan public/demos --json
+1. Search a single generic capability; omit private names, data and source code.
+   Rephrase an irrelevant search once, then use another primary source.
+2. Retrieve matching guides in full, including any temporary output file.
+3. Preserve the application's browser requirements. The installed Next.js guide
+   lists Chrome/Edge 111+, Firefox 111+, Safari 16.4+. Baseline labels do not
+   authorize silently raising those minimums. Newer mechanisms need detection,
+   a working fallback, or explicitly acceptable degradation.
+4. Adapt guidance to React lifecycle, SSR and type definitions. Native-first is
+   not library prohibition. Retain a library when it meets the need better.
+5. Verify keyboard, accessible name/role, focus return, reduced motion, viewport
+   layout and visual appearance. Run lint/build and relevant browser checks.
+   A scanner result or a successful lookup is not completion evidence.
+
+For broad legacy triage only:
+
+```sh
+npm run mwg -- legacy-scan src --json
+npm run mwg -- legacy-scan public/demos --json
 ```
 
-Pass one target directory per invocation. A trial with two positional directories
-reported only the first; separate invocations were used to verify both targets.
-The tested scan covers 33 guides / 35 deterministic rules, approximately 20% of
-the guidance corpus. Review each result's `keepWhen` / `dropWhen` rubric. Zero
-findings does not establish accessibility, performance, or complete modernization.
+Use separate targets: the initial two-directory command inspected only the first.
+The tested scan covers 33 guides / 35 rules (roughly 20% of the catalog). Initial
+results: one dark-mode candidate in `src/app/globals.css`, zero in the demos.
+Review keep/drop rubrics; do not erase useful fallbacks to reach zero findings.
+The theme candidate remains separate from the dialog trial.
 
-Observed candidates, without changing application behavior:
+## Independent critique and pilot
 
-| Area | Evidence | Next decision |
-| --- | --- | --- |
-| Theme | Scan found one `dark-mode` candidate in `src/app/globals.css`; inspection confirms a dark media query changes tokens without root `color-scheme`. | Review native UI theming and the fixed paper palette together. Do not mechanically replace every media query; some are valid fallbacks. |
-| Detail overlay | Manual inspection of `src/components/Lightbox.tsx` shows a `motion.div` overlay and a window Escape handler. | Search dialog guidance before the next change; assess semantic modal behavior, initial/return focus, background inertness, and animation needs. This was not a scanner finding or a browser test. |
-| Scroll demo | The demo already uses CSS scroll timelines with feature detection and reduced-motion handling; its directory scan has zero findings. | Preserve the native approach. The handoff's chapter/waypoint mismatch still needs behavior-level verification. |
+An ATD review requested changes to the first proposal: too broad a mandatory
+lookup, prose-only telemetry protection, an npm pin without lockfile integrity,
+no exit criteria, and no outcome evidence. It recommended a detail-dialog pilot.
+The scoped trigger, local wrapper, dependency lock and exit criteria address those
+findings. Review details and evidence limitations are recorded in
+[the pilot record](modern-web-pilot.md).
 
-Retrieved and read `scroll-progress-indicator` and `dark-mode` during the trial.
-No application migration was made. Do not remove Framer Motion, React, or Next.js
-merely because native alternatives exist; compare the actual feature and costs.
+The trial modernizes `StyleDetail` using `dialog`, `light-dismiss-a-dialog`, and
+`prevent-page-scroll-under-modal-dialog` guidance. Native `showModal()` supplies
+semantics, inert background interaction and focus behavior. `closedby` uses a
+pointer-boundary fallback when unavailable; both press and release must be outside
+so selecting text does not dismiss. React's installed types require lowercase
+`closedby`. A queued Strict Mode close event cannot dismiss a reopened modal.
 
-## Proposed rollout to all agents
+Keep the paper palette, hard borders and shadows. Use a short CSS entrance only
+without reduced-motion preference; the old exit animation was inside an unmounted
+component and did not run, so close is deliberately immediate. Native scroll
+containment is progressive enhancement: older engines may still scroll the page
+behind the backdrop. Keyboard and background interaction remain protected; do
+not claim a universal scroll lock or feature-detect this behavior by CSS syntax.
 
-Use the existing AI Agent Entrypoint (AAE) foundation workflow for route reach,
-with an explicit owner/deployer for this third-party skill. AAE audits and renders
-destinations; it does not own or deploy skill content. Its current ADR 0041 keeps
-undeclared third-party skills outside the foundation inventory, so inclusion
-requires an explicit contract decision, not just an installer run.
+Run `npm run test:browser` after `npx playwright install chromium firefox webkit`.
+Tests own the registered loopback test service on port 9913 and refuse reuse of
+an existing server. Coordinate its lease before execution. Browser binaries are
+test-only. WebKit automation is not an actual Safari/iPhone or screen-reader test.
 
-1. Review and pin one upstream skill/CLI revision, retain licensing, and define
-   its update and rollback procedure. Keep telemetry disabled across invocations.
-2. Declare the intended provider/profile surfaces. Use the existing managed-route
-   deployment mechanism; installing into a default home alone is insufficient.
-3. Verify discovery in fresh sessions on each intended route, then prove that a
-   natural UI request actually triggers search and retrieval. File presence alone
-   is not evidence of activation. Do not infer Antigravity discovery from another
-   provider's paths or from upstream plugin support.
-4. Use a small behavioral acceptance task: accessible dialog, responsive cards,
-   or reduced-motion-safe scroll effects. Check the rendered outcome and fallback.
-5. Run the declared-route foundation audit and retain revision/digest evidence.
-   Recheck discovery and behavior after updates. Pinning must be paired with upkeep.
+## Keep, stop, and rollback
 
-No fleet homes, agent settings, foundation inventory, or sibling repositories
-were modified here. The reusable workflow is kept in this domain-specific atlas;
-fleet adoption remains a separate implementation step.
+This pilot compares existing behavior with one guided implementation; it is not
+an independent unguided-agent control. It can establish a useful repair and a
+workable lookup path, but cannot establish the skill caused the improvement.
+
+Keep it as a limited trial only when the repaired interaction passes its acceptance
+checks and screenshots preserve the design. Before fleet rollout, gather another
+representative task and fresh-session activation evidence for intended routes;
+record time/rework and irrelevant lookups, as well as user-visible quality.
+A comparative efficacy claim needs matched independent guided/unguided work.
+
+Stop expanding if guidance causes a regression, conflicts with the browser target,
+repeatedly returns irrelevant results, or adds effort without demonstrated value.
+Resolve individual contradictory rules with primary sources and behavior tests.
+At the review date, explicitly renew, revise, or retire the trial; no automatic
+expiry task exists. If not renewed, treat the lookup as optional reference.
+
+Rollback the instruction and tooling independently of a useful application fix:
+remove the trial section, npm `mwg` script, wrapper and devDependency; regenerate
+the lockfile. Keep documentation/evidence and regression tests. Revert the dialog
+separately only if its own behavior regresses, preserving unrelated changes.
+
+## Fleet adoption remains conditional
+
+AAE audits route reach and renders destinations; an explicitly named owner/deployer
+must distribute content. Its current ADR 0041 excludes undeclared third-party
+skills, so a contract decision is required. Do not infer agent activation from a
+file or from another provider's paths. In a fresh natural task, verify discovery,
+actual lookup, and useful implementation on each intended route. Pin/update content
+through one owner; keep the project wrapper's privacy policy. No global profiles,
+account homes, sibling configuration, plugin installation or fleet defaults have
+been changed by this trial.

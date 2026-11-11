@@ -44,6 +44,36 @@ body {
 }
 
 /* Custom utilities for the hard borders */
+.style-detail:modal {
+  overscroll-behavior: contain;
+}
+
+.style-detail::backdrop {
+  background: rgb(238 242 239 / 92%);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .style-detail[open] {
+    animation: study-enter 160ms ease-out;
+  }
+}
+
+@keyframes study-enter {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .style-detail,
+  .style-detail * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 @layer utilities {
   .border-hard {
     border: 2px solid var(--foreground);

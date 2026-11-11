@@ -46,7 +46,12 @@ http://localhost:9913
 ```bash
 npm run lint
 npm run build
+npm run test:browser
 ```
+
+Browser checks require `npx playwright install chromium firefox webkit` and the
+registered loopback port 9913 to be free. See the
+[modern web pilot](docs/modern-web-pilot.md) for measured behavior and limitations.
 
 ## Adding A Pattern
 

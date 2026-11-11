@@ -1,5 +1,30 @@
 # Handoff
 
+## ATD-reviewed guidance trial and modal pilot, 2026-11-11
+
+- Objective: challenge the initial adoption direction and verify a useful project
+  implementation before fleet rollout. See `docs/modern-web-pilot.md` for evidence
+  and `docs/modern-web-guidance.md` for the revised bounded workflow.
+- Scope: project instructions/docs, `scripts/mwg.mjs`, exact devDependencies and
+  lockfile, `src/components/Lightbox.tsx`, scoped dialog CSS, Playwright config and
+  browser tests. No sibling code, global homes, fleet inventory or public deployment.
+- Decision: ATD requested changes. Addressed broad triggering, telemetry enforcement,
+  locking, exit criteria and outcome evidence. Retain a project trial through
+  2026-11-25, not a fleet recommendation or general efficacy claim.
+- Verification: baseline Chromium suite failed at missing semantics/focus return;
+  final three-engine suite passes 18/18. Lint and production build pass. Inspected
+  mobile and desktop Chromium screenshots. Wrapper search/retrieve/version and
+  forced child telemetry opt-out pass; installer refusal is expected exit 2.
+- Limits: no fresh-session route activation or independent unguided control; no
+  actual Safari/iOS hardware, screen reader, older-browser or every-pattern pass.
+  Native backdrop scroll containment is progressive enhancement. Reviewer returned
+  REQUEST_CHANGES on the initial proposal, not approval of this later implementation.
+- Next: another representative capability trial and per-route activation evidence;
+  review or retire the lookup rule by the date above. Theme finding remains open.
+- Knowledge disposition: domain-specific trial, corrections and verification live
+  in this atlas; no duplicate portfolio lesson. Normalized ATD and browser evidence
+  remain in ignored verification storage. Project/port leases released at closeout.
+
 ## Modern web guidance checkpoint, 2026-11-11
 
 - Objective: make current web-platform guidance part of agent implementation
