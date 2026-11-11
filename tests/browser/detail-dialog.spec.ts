@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { websiteStyles } from "../../src/data/websiteStyles";
 
 async function openStudy(page: Page) {
   await page.goto("/");
@@ -110,4 +111,50 @@ test("responsive study regions do not overlap", async ({ page }) => {
     await page.screenshot({ path: `.verification/dialog-${width}-${test.info().project.name}.png` });
     await page.getByRole("button", { name: "Close", exact: true }).click();
   }
+});
+
+test("every catalog study exposes the exact reusable prompt", async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: {
+      writeText: async (text: string) => { document.documentElement.dataset.copiedPrompt = text; },
+    } });
+  });
+  await page.goto('/');
+  for (const style of websiteStyles) {
+    const card = page.getByRole('button', { name: /Open study/ }).filter({ has: page.getByRole('heading', { name: style.title, exact: true }) });
+    // WebKit does not focus buttons on pointer clicks; test keyboard return
+    // from an explicitly focused invoker instead.
+    await card.focus();
+    await card.press("Enter");
+    const dialog = page.getByRole('dialog', { name: style.title, exact: true });
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('button', { name: 'Prompt', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Copy prompt', exact: true }).click();
+    await expect(dialog.getByRole('status')).toContainText('Prompt copied.');
+    await expect(page.locator('html')).toHaveAttribute('data-copied-prompt', style.starterPrompt);
+    await page.keyboard.press('Escape');
+    await expect(card).toBeFocused();
+  }
+});
+
+test("clipboard denial offers manual selection and allows retry", async ({ page }) => {
+  await page.addInitScript(() => {
+    let attempts = 0;
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: {
+      writeText: async () => { if (++attempts === 1) throw new DOMException('Denied', 'NotAllowedError'); },
+    } });
+  });
+  const { title } = await openStudy(page);
+  const dialog = page.getByRole('dialog', { name: title, exact: true });
+  await dialog.getByRole('button', { name: 'Prompt', exact: true }).click();
+  const copy = dialog.getByRole('button', { name: 'Copy prompt', exact: true });
+  await copy.click();
+  await expect(dialog.getByRole('status')).toContainText('Copy unavailable');
+  await expect(copy).toBeEnabled();
+  await dialog.getByRole('button', { name: 'Select prompt text' }).click();
+  expect(await page.evaluate(() => window.getSelection()?.toString())).toBe(websiteStyles.find(style => style.title === title)!.starterPrompt);
+  await copy.click();
+  await expect(dialog.getByRole('status')).toContainText('Prompt copied.');
+  await expect(dialog.getByRole('button', { name: 'Select prompt text' })).toHaveCount(0);
 });

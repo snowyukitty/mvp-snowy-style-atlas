@@ -1,5 +1,36 @@
 # Handoff
 
+## Reliable prompt handoff checkpoint, 2026-11-12
+
+- Objective: carry the guidance trial into a second capability: dependable prompt
+  copying, recovery and complete catalog coverage.
+- Scope: detail dialog, browser regression tests, README and handoff.
+- Changes: visible live-region copy feedback, permission/missing-API failure
+  recovery with explicit text selection, retry without disabling the control,
+  and sequence tracking so an older asynchronous result cannot overwrite a newer one.
+- Guidance: searched and read `copy-button`. Kept the existing React handler
+  instead of adopting Invoker Commands plus a compatibility path for one button.
+  Clipboard calls remain directly user-triggered; no deprecated copy API is used.
+- Evidence: tests now exercise all 13 catalog entries and exact copied payloads,
+  plus denied clipboard access, manual selection and successful retry. Clipboard
+  writes are mocked to make success/failure deterministic; this does not verify
+  operating-system clipboard permissions. Existing real-browser modal checks remain.
+- Verification: lint and production build pass; three-engine browser suite
+  passes 24/24, including all 13 exact prompt payloads per engine. Markdown
+  links/fences, diff whitespace and targeted privacy checks pass.
+  The first browser pass was 23/24: its catalog test incorrectly expected
+  WebKit pointer activation to focus a button. The corrected test explicitly
+  uses keyboard activation before checking focus return; no custom focus
+  restoration was added to override native pointer behavior.
+- Limits: actual assistive-technology speech, older browsers and agent profile
+  activation remain unverified. Fleet adoption is still conditional. Theme work
+  remains separate; no unrelated redesign or cloud deployment.
+- Knowledge: this second capability demonstrates adapting advice to existing
+  framework constraints; it does not establish causal uplift from the skill.
+- Delivery: push the checkpoint branch to the owned GitHub repository; release
+  project and port leases after verification.
+
+
 ## ATD-reviewed guidance trial and modal pilot, 2026-11-11
 
 - Objective: challenge the initial adoption direction and verify a useful project

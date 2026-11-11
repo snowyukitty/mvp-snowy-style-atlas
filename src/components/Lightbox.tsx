@@ -14,7 +14,9 @@ interface LightboxProps {
 type DetailTab = "recipe" | "sources" | "prompt";
 
 export function StyleDetail({ item, onClose }: LightboxProps) {
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState("");
+  const copySequence = useRef(0);
+  const promptRef = useRef<HTMLParagraphElement>(null);
   const [tab, setTab] = useState<DetailTab>("recipe");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -52,9 +54,25 @@ export function StyleDetail({ item, onClose }: LightboxProps) {
   if (!item) return null;
 
   const handleCopyPrompt = async () => {
-    await navigator.clipboard.writeText(item.starterPrompt);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    const sequence = ++copySequence.current;
+    setCopyStatus("");
+    try {
+      await navigator.clipboard.writeText(item.starterPrompt);
+      if (sequence === copySequence.current) setCopyStatus(`Prompt copied.${sequence % 2 ? "" : "\u00a0"}`);
+    } catch {
+      if (sequence === copySequence.current) setCopyStatus("Copy unavailable. Select the prompt below and copy it manually.");
+    }
+  };
+
+  const selectPrompt = () => {
+    const prompt = promptRef.current;
+    if (!prompt) return;
+    prompt.focus();
+    const range = document.createRange();
+    range.selectNodeContents(prompt);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
   };
 
   return (
@@ -181,14 +199,21 @@ export function StyleDetail({ item, onClose }: LightboxProps) {
               <div className="mb-3 flex items-center justify-between border-b border-[var(--color-ink)] pb-2">
                 <h3 className="font-mono text-xs font-black uppercase">Starter prompt</h3>
                 <button
+                  type="button"
                   onClick={handleCopyPrompt}
-                  className="inline-flex items-center gap-1 font-mono text-xs font-bold uppercase text-[var(--color-ink-light)] transition-colors hover:text-[var(--color-ink)]"
+                  className="inline-flex min-h-8 items-center gap-1 font-mono text-xs font-bold uppercase text-[var(--color-ink-light)] transition-colors hover:text-[var(--color-ink)]"
                 >
-                  {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                  {copied ? "Copied" : "Copy"}
+                  {copyStatus.startsWith("Prompt copied") ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                  Copy prompt
                 </button>
               </div>
-              <p className="border border-dashed border-[var(--color-ink-light)] bg-[var(--color-paper)] p-4 font-mono text-sm leading-7">
+              <p role="status" aria-live="polite" className="mb-2 min-h-6 text-sm">{copyStatus}</p>
+              {copyStatus.startsWith("Copy unavailable") && (
+                <button type="button" onClick={selectPrompt} className="mb-3 min-h-8 underline underline-offset-4">
+                  Select prompt text
+                </button>
+              )}
+              <p ref={promptRef} tabIndex={-1} className="border border-dashed border-[var(--color-ink-light)] bg-[var(--color-paper)] p-4 font-mono text-sm leading-7">
                 {item.starterPrompt}
               </p>
             </div>

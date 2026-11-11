@@ -24,6 +24,8 @@ implementation notes, and a starter prompt.
 - [Readable, compact interfaces](docs/readable-interface-lessons.md): practical
   lessons on information density, modular structure, mobile task flow, accurate
   states and verification, with a reusable cross-project improvement prompt.
+- Prompt handoff includes accessible copy feedback, clipboard-denial recovery,
+  and exact-payload browser checks across all 13 studies.
 - Where to pick up next: `docs/handoff.md`.
 - [Modern web guidance for agents](docs/modern-web-guidance.md): a verified
   search/retrieve workflow, compatibility rules, modernization candidates,
