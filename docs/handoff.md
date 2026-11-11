@@ -1,5 +1,29 @@
 # Handoff
 
+## Modern web guidance checkpoint, 2026-11-11
+
+- Objective: make current web-platform guidance part of agent implementation
+  decisions, with a concrete route toward multi-profile adoption.
+- Scope: `AGENTS.md`, `README.md`, `docs/modern-web-guidance.md`, this handoff.
+  The project instruction now requires focused search/retrieval before web UI
+  work. Application code and dependencies are unchanged.
+- Evidence: Node 24.18.0; npm reports CLI 1.0.0 and Node >=22. With telemetry
+  disabled, search and retrieval succeeded. Read `scroll-progress-indicator`
+  and `dark-mode` in full. Separate scans found one dark-mode candidate in
+  `src` and zero in `public/demos` (33 guides / 35 rules, not a full audit).
+- Next: implement fleet adoption through the existing owner/deployer and AAE
+  contract, then prove discovery and natural task activation per route. Review
+  theme and modal candidates on their next implementation pass; preserve the
+  native scroll demo. No fleet deployment or browser behavior is claimed.
+- Knowledge disposition: local, domain-specific workflow documented here;
+  no duplicate portfolio lesson or sibling configuration change.
+- Verification: CLI smoke checks above; `git diff --check`, local Markdown link
+  resolution, balanced code fences, and targeted private-path/secret-pattern
+  checks pass for all four changed files.
+  Build, lint, and browser tests are skipped for this instruction/documentation
+  change. Earlier application checks below remain historical.
+- Coordination: scoped project lease held during editing, released at closeout.
+
 ## Documentation checkpoint, 2026-11-06
 
 - Objective: preserve reusable interface-design lessons in the atlas without

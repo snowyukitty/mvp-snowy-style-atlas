@@ -25,6 +25,9 @@ implementation notes, and a starter prompt.
   lessons on information density, modular structure, mobile task flow, accurate
   states and verification, with a reusable cross-project improvement prompt.
 - Where to pick up next: `docs/handoff.md`.
+- [Modern web guidance for agents](docs/modern-web-guidance.md): a verified
+  search/retrieve workflow, compatibility rules, modernization candidates,
+  and a proposed rollout through the existing agent management system.
 
 ## Development
 
