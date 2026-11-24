@@ -1,5 +1,36 @@
 # Handoff
 
+## Multi-tool illustrated craft checkpoint, 2026-11-24
+
+- Objective: teach future website builds when a page should be richly
+  illustrated versus quiet and typographic, and how to combine one anchor taste
+  palette, audited brand marks, editable canvas paintings, raster plates, and
+  data-driven SVG diagrams.
+- Scope: `docs/multi-tool-visual-craft.md`, new `wsa-014` (*Illustrated Field
+  Workbench*, `illustrated-craft` preview), selective build notes on
+  `wsa-005`/`wsa-008`/`wsa-010`, updated `wsa-011` pattern count (`14`),
+  `Lightbox.tsx` empty `referenceLinks` guard, `StylePreview` token scoping and
+  light/dark preview surface contrast fix in `ImageCard.tsx`, plus `README.md`,
+  `AGENTS.md`, and this handoff. No new dependencies or image files.
+- Evidence boundary: qualitative iteration evidence from one warm
+  technical/editorial site upgrade and owner feedback; source project name,
+  local paths, and infrastructure are omitted.
+- Guidance: `mwg` lookup skipped (static atlas content and preview styling; no
+  new interactive primitives, motion, theming, forms, or UI dependencies).
+- Verification: `npm run lint`, `npm run build`, and three-engine
+  `npm run test:browser` pass 24/24 across Chromium, Firefox, and WebKit
+  (including exact prompt payload checks across all 14 entries). Inspected real
+  Chromium desktop (1280px) and mobile (390px, reduced motion, zero horizontal
+  overflow) screenshots of `wsa-014` card/dialog and contrast-fixed cards
+  (`wsa-001`, `wsa-005`), which also caught and resolved missing `--demo-*`
+  token scoping inside the detail dialog preview. Both reference URLs
+  (`https://ciechanow.ski/` and `https://pudding.cool/`) returned HTTP 200 on
+  2026-11-24.
+- Maintenance: `wsa-011`'s `Patterns` metric is a literal inside
+  `src/data/websiteStyles.ts`; update it when adding future entries.
+- Next: apply `docs/multi-tool-visual-craft.md` to a fresh project build and
+  record its concrete before/after and fallback rung outcomes.
+
 ## Reliable prompt handoff checkpoint, 2026-11-12
 
 - Objective: carry the guidance trial into a second capability: dependable prompt

@@ -44,7 +44,8 @@ export type WebsiteStyle = {
       | "open-source-kit"
       | "curated-gallery"
       | "saas-patterns"
-      | "diary-index";
+      | "diary-index"
+      | "illustrated-craft";
     kicker: string;
     headline: string;
     subhead: string;
@@ -465,7 +466,8 @@ export const websiteStyles: WebsiteStyle[] = [
     buildNotes: [
       "Build use-case cards from team/audience data.",
       "Use a compact template gallery as the first interactive element.",
-      "Keep the color system broad enough for teams, docs, and agent states."
+      "Keep the color system broad enough for teams, docs, and agent states.",
+      "Pick one warm anchor style for use-case tile spots and derive tile accents from it; keep spots small on open paper (see docs/multi-tool-visual-craft.md)."
     ],
     starterPrompt:
       "Create a warm workspace product site with a centered hero, team logos, use-case tiles for docs, projects, agents, search, and templates, plus simple CTAs for free signup and demo."
@@ -708,7 +710,8 @@ export const websiteStyles: WebsiteStyle[] = [
     buildNotes: [
       "Create a sticky local nav independent of global nav.",
       "Use aspect-ratio containers for product visuals to prevent layout shifts.",
-      "Prefer CSS masks and gradients for demo placeholders until final product media exists."
+      "Prefer CSS masks and gradients for demo placeholders until final product media exists.",
+      "Until final product media exists, an editable canvas object study in the product's palette is a truer placeholder than a gradient silhouette."
     ],
     starterPrompt:
       "Create a premium hardware launch page with local nav, first-viewport product visual, short hero copy, close-up detail modules, experiential sections for work/media/connection, and final demo/buy CTA."
@@ -875,7 +878,8 @@ export const websiteStyles: WebsiteStyle[] = [
     buildNotes: [
       "Use a sections config object and one component per section.",
       "Document which sections are optional for one-day MVPs.",
-      "Keep no-image fallback layouts polished."
+      "Keep no-image fallback layouts polished.",
+      "Ship an audited favicon/app-icon set with the starter; a missing or blurry 16px icon undermines repo trust."
     ],
     starterPrompt:
       "Create an open-source MVP landing starter with data-driven sections: hero, feature grid, screenshot slot, pricing teaser, FAQ, install/docs block, and repo trust indicators for stack and license."
@@ -939,7 +943,7 @@ export const websiteStyles: WebsiteStyle[] = [
       primaryAction: "Open atlas",
       secondaryAction: "Add source",
       metrics: [
-        { label: "Patterns", value: "13" },
+        { label: "Patterns", value: "14" },
         { label: "Sources", value: "30+" },
         { label: "Filters", value: "5" }
       ],
@@ -1138,6 +1142,85 @@ export const websiteStyles: WebsiteStyle[] = [
     ],
     starterPrompt:
       "Build a quiet diary page for a fictional song archive. One accent color that only marks what can be opened, an ordered list of eight real links each with a hand-drawn inline SVG number seal, Japanese serif headings with a small Latin caption, notes below as same-page link targets, system fonts only, no JavaScript. Any motion must be removed under prefers-reduced-motion and the page must read fully without it."
+  },
+  {
+    id: "wsa-014",
+    title: "Illustrated Field Workbench",
+    category: "Illustrated Editorial",
+    fit: "Maker and craft tools, technical explainers, studio or workshop sites, small product guides that need warmth and precision",
+    summary:
+      "A warm paper workbench where every picture has one job: a hand-made hero plate sets the mood, editable object studies explain the thing, measured diagrams carry the numbers, and one audited mark ties it together. Pictures replace paragraphs; they do not decorate them.",
+    tags: ["illustrated", "editorial", "gouache", "diagrams", "warm"],
+    tone: "Crafted",
+    complexity: "Intermediate",
+    score: 93,
+    referenceLinks: [
+      {
+        label: "Bartosz Ciechanowski",
+        url: "https://ciechanow.ski/",
+        why: "Long technical explainers where interactive drawings carry the argument and the prose stays short beside them."
+      },
+      {
+        label: "The Pudding",
+        url: "https://pudding.cool/",
+        why: "Data-driven visual essays: each graphic answers one question in the story rather than filling space."
+      }
+    ],
+    githubLinks: [],
+    sourceNotes: [
+      "Distilled from one warm technical/editorial site upgrade and owner feedback; qualitative, not a measured study. Method in docs/multi-tool-visual-craft.md.",
+      "Study how the references pair one drawing with one idea; redraw everything. No asset, copy or code from the reference sites is reusable.",
+      "Palette and medium come from one anchor style in the owner's style atlas export; agent inspection of the art is not owner approval."
+    ],
+    visual: {
+      background: "#f4ecdd",
+      surface: "#fbf6ec",
+      ink: "#2a2622",
+      accent: "#9c4426",
+      secondary: "#4f6b5a",
+      layout: "Plate-and-caption rows: an illustration on open paper beside short text, alternating sides from 48rem, one column on phones",
+      typeScale: "Warm serif headings, readable sans body, small mono figure captions",
+      motion: "Static by default; at most one signature reveal, removed under reduced motion",
+      density: "Open"
+    },
+    demo: {
+      kind: "illustrated-craft",
+      kicker: "Field workbench",
+      headline: "Show the tool, then explain it",
+      subhead: "Each section pairs one hand-made plate or measured diagram with a short paragraph.",
+      primaryAction: "Read the guide",
+      secondaryAction: "See the plates",
+      metrics: [
+        { label: "Anchor palette", value: "1" },
+        { label: "Plate media", value: "≤2" },
+        { label: "Visual jobs", value: "5" }
+      ],
+      modules: ["Palette", "Mark", "Plate", "Study", "Diagram"]
+    },
+    sections: [
+      "Masthead with audited mark and one-line promise",
+      "Hero plate on open paper",
+      "Plate-and-caption explainer rows",
+      "Measured diagram with data table fallback",
+      "Materials and process notes",
+      "Quiet closing action"
+    ],
+    techniques: [
+      "Give every picture a job: if it cannot name the sentence it replaces, cut it.",
+      "Derive site, illustration, icon and diagram colors from one anchor palette; darken UI text until it passes contrast.",
+      "Characters and cozy vignettes as raster plates; objects and workshop scenes as editable canvas paintings; numbers only as SVG.",
+      "Float each plate on open paper with a small caption instead of full-bleed imagery.",
+      "Budget one hero plate and at most one illustration per two sections, in no more than two painting media."
+    ],
+    buildNotes: [
+      "Reserve plate slots with aspect-ratio boxes and a CSS paper tone so the layout holds before and without art.",
+      "Fallback ladder: raster plate, then canvas painting, then SVG line art, then a balanced no-image row; record which shipped.",
+      "Diagrams read from a data array, carry an accessible name and keep a nearby table for exact values.",
+      "Generate the favicon and app icons from the audited icon pipeline and check them at 16px; never hand-roll them.",
+      "Verify plates against the anchor style's acceptance list, then screenshot 390px and desktop with reduced motion emulated."
+    ],
+    starterPrompt:
+      "Build a warm illustrated guide page for a fictional hand-tool workshop. Use one anchor palette: paper #f4ecdd, ink #2a2622, accent #9c4426 only for actions, sage #4f6b5a for diagram lines. Sections: masthead with a simple mark, one hero illustration floating on open paper, four plate-and-caption rows alternating sides from 48rem (one column on phones), one SVG diagram drawn from a data array with an accessible name and a small table of the same values, and a quiet closing action. Reserve every illustration slot with aspect-ratio and a paper-tone fallback so the page is balanced with no images. No glossy 3D, no gradients, no stock imagery; any motion must be removed under prefers-reduced-motion."
   }
 ];
 

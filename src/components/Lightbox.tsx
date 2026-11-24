@@ -177,7 +177,9 @@ export function StyleDetail({ item, onClose }: LightboxProps) {
 
           {tab === "sources" && (
             <div className="grid gap-5">
-              <LinkGroup icon={<ExternalLink className="h-4 w-4" />} title="Reference sites" links={item.referenceLinks} />
+              {item.referenceLinks.length > 0 && (
+                <LinkGroup icon={<ExternalLink className="h-4 w-4" />} title="Reference sites" links={item.referenceLinks} />
+              )}
               {item.githubLinks.length > 0 && (
                 <LinkGroup icon={<GitBranch className="h-4 w-4" />} title="GitHub and template sources" links={item.githubLinks} />
               )}

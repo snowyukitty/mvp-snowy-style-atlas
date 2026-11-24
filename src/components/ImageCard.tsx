@@ -91,9 +91,17 @@ export function StylePreview({
   compact?: boolean;
 }) {
   const previewClass = compact ? "min-h-[260px]" : "min-h-[300px]";
+  const tokenStyle = {
+    "--demo-bg": item.visual.background,
+    "--demo-surface": item.visual.surface,
+    "--demo-ink": item.visual.ink,
+    "--demo-accent": item.visual.accent,
+    "--demo-secondary": item.visual.secondary,
+  } as CSSProperties;
 
   return (
     <div
+      style={tokenStyle}
       className={`relative overflow-hidden bg-[var(--demo-bg)] p-4 text-[var(--demo-ink)] ${previewClass}`}
     >
       <div className="absolute inset-0 opacity-[0.08] atlas-grid" />
@@ -118,7 +126,7 @@ function PreviewBody({ item }: { item: WebsiteStyle }) {
       <div className="flex flex-1 flex-col justify-between gap-4">
         <div>
           <p className="mb-2 max-w-xs text-2xl font-black leading-none">{item.demo.headline}</p>
-          <div className="grid gap-2 rounded-full border border-[var(--demo-ink)]/20 bg-[var(--demo-surface)] p-2 text-[var(--demo-bg)] shadow-xl sm:grid-cols-3">
+          <div className="grid gap-2 rounded-full border border-[var(--demo-ink)]/20 bg-[var(--demo-surface)] p-2 text-[var(--demo-ink)] shadow-xl sm:grid-cols-3">
             {item.demo.modules.slice(0, 3).map((module) => (
               <div key={module} className="rounded-full bg-white px-3 py-2 font-mono text-[10px] font-bold uppercase text-[#222]">
                 {module}
@@ -128,7 +136,7 @@ function PreviewBody({ item }: { item: WebsiteStyle }) {
         </div>
         <div className="grid grid-cols-3 gap-2">
           {["City", "Stay", "Host"].map((label) => (
-            <div key={label} className="aspect-[4/3] rounded-md bg-[var(--demo-surface)]/90 p-2 text-[10px] text-[var(--demo-bg)]">
+            <div key={label} className="aspect-[4/3] rounded-md bg-[var(--demo-surface)]/90 p-2 text-[10px] text-[var(--demo-ink)]">
               <div className="mb-2 h-10 rounded bg-[var(--demo-accent)]/70" />
               <span className="font-mono font-bold">{label}</span>
             </div>
@@ -205,13 +213,70 @@ function PreviewBody({ item }: { item: WebsiteStyle }) {
     );
   }
 
+  if (item.demo.kind === "illustrated-craft") {
+    return (
+      <div className="grid flex-1 grid-cols-[1.15fr_0.85fr] gap-4">
+        <figure className="flex flex-col gap-2">
+          <div
+            aria-hidden="true"
+            className="relative aspect-[4/3] overflow-hidden border border-[var(--demo-ink)]/20 bg-[var(--demo-surface)]"
+          >
+            <svg viewBox="0 0 240 180" className="h-full w-full">
+              {/* Matte cut-paper/gouache spot vignette floating on open warm paper */}
+              <ellipse cx="122" cy="144" rx="64" ry="8" fill="var(--demo-ink)" fillOpacity="0.12" />
+              <path
+                d="M66 132 C58 96, 72 52, 110 46 C142 42, 162 68, 156 108 C152 128, 134 138, 104 138 C84 138, 70 136, 66 132 Z"
+                fill="var(--demo-secondary)"
+                fillOpacity="0.86"
+              />
+              <path
+                d="M110 136 C106 104, 124 72, 154 68 C178 65, 192 86, 186 116 C181 134, 164 140, 138 140 C122 140, 112 139, 110 136 Z"
+                fill="var(--demo-accent)"
+                fillOpacity="0.9"
+              />
+              <circle cx="96" cy="86" r="14" fill="var(--demo-surface)" fillOpacity="0.92" />
+              {/* Measured callout rule symbolizing data-driven diagram companion */}
+              <line x1="24" y1="158" x2="216" y2="158" stroke="var(--demo-ink)" strokeOpacity="0.35" strokeWidth="1" />
+              <line x1="24" y1="154" x2="24" y2="162" stroke="var(--demo-ink)" strokeOpacity="0.45" strokeWidth="1" />
+              <line x1="120" y1="155" x2="120" y2="161" stroke="var(--demo-ink)" strokeOpacity="0.35" strokeWidth="1" />
+              <line x1="216" y1="154" x2="216" y2="162" stroke="var(--demo-ink)" strokeOpacity="0.45" strokeWidth="1" />
+            </svg>
+          </div>
+          <figcaption className="font-mono text-[10px] uppercase opacity-75">
+            Fig. 1 / {item.demo.headline}
+          </figcaption>
+        </figure>
+        <ul className="grid content-start gap-1.5 border-t border-[var(--demo-ink)]/20 pt-2">
+          {item.demo.modules.slice(0, 5).map((module, index) => (
+            <li
+              key={module}
+              className="flex items-center gap-2 border-b border-[var(--demo-ink)]/15 pb-1.5 font-mono text-[10px] font-bold uppercase"
+            >
+              <span
+                aria-hidden="true"
+                className={`h-2.5 w-2.5 shrink-0 ${
+                  index === 4
+                    ? "border border-[var(--demo-secondary)]"
+                    : index % 2
+                      ? "bg-[var(--demo-secondary)]"
+                      : "bg-[var(--demo-accent)]"
+                }`}
+              />
+              {module}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
   if (item.demo.kind === "curated-gallery" || item.demo.kind === "saas-patterns") {
     return (
       <div className="grid flex-1 grid-cols-3 gap-2">
         {item.demo.modules.slice(0, 6).map((module, index) => (
           <div
             key={module}
-            className={`${index === 0 ? "col-span-2 row-span-2" : ""} border border-[var(--demo-ink)]/20 bg-[var(--demo-surface)] p-2 text-[var(--demo-bg)]`}
+            className={`${index === 0 ? "col-span-2 row-span-2" : ""} border border-[var(--demo-ink)]/20 bg-[var(--demo-surface)] p-2 text-[var(--demo-ink)]`}
           >
             <div className="mb-2 h-10 bg-[var(--demo-accent)]/80" />
             <p className="font-mono text-[10px] font-bold uppercase">{module}</p>
@@ -240,15 +305,15 @@ function PreviewBody({ item }: { item: WebsiteStyle }) {
         </div>
       </div>
       <div className="grid gap-2">
-        <div className="border border-[var(--demo-ink)]/20 bg-[var(--demo-surface)] p-3 text-[var(--demo-bg)]">
+        <div className="border border-[var(--demo-ink)]/20 bg-[var(--demo-surface)] p-3 text-[var(--demo-ink)]">
           <div className="mb-3 flex items-center gap-1">
             <span className="h-2 w-2 rounded-full bg-[var(--demo-accent)]" />
             <span className="h-2 w-2 rounded-full bg-[var(--demo-secondary)]" />
-            <span className="h-2 w-2 rounded-full bg-[var(--demo-bg)]/30" />
+            <span className="h-2 w-2 rounded-full bg-[var(--demo-ink)]/30" />
           </div>
           <div className="space-y-2">
             {item.demo.modules.slice(0, 4).map((module) => (
-              <div key={module} className="flex items-center justify-between border-b border-[var(--demo-bg)]/15 pb-2 font-mono text-[10px]">
+              <div key={module} className="flex items-center justify-between border-b border-[var(--demo-ink)]/15 pb-2 font-mono text-[10px]">
                 <span>{module}</span>
                 <span className="text-[var(--demo-accent)]">active</span>
               </div>
@@ -257,7 +322,7 @@ function PreviewBody({ item }: { item: WebsiteStyle }) {
         </div>
         <div className="grid grid-cols-3 gap-2">
           {item.demo.metrics.map((metric) => (
-            <div key={metric.label} className="bg-[var(--demo-surface)] p-2 text-[var(--demo-bg)]">
+            <div key={metric.label} className="bg-[var(--demo-surface)] p-2 text-[var(--demo-ink)]">
               <p className="font-mono text-[10px] uppercase opacity-60">{metric.label}</p>
               <p className="font-mono text-sm font-black">{metric.value}</p>
             </div>

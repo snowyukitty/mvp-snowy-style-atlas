@@ -9,8 +9,9 @@ implementation notes, and a starter prompt.
 
 ## Current Scope
 
-- 13 researched website patterns across SaaS, fintech, developer platforms,
-  marketplaces, product launches, galleries, and open-source templates.
+- 14 researched website patterns across SaaS, fintech, developer platforms,
+  marketplaces, product launches, galleries, illustrated editorial guides, and
+  open-source templates.
 - Filterable atlas UI with category, tone, complexity, sorting, grid/compact views,
   live CSS previews, and detail studies.
 - Research notes in `docs/research.md`, plus the October 2026 follow-up:
@@ -24,8 +25,13 @@ implementation notes, and a starter prompt.
 - [Readable, compact interfaces](docs/readable-interface-lessons.md): practical
   lessons on information density, modular structure, mobile task flow, accurate
   states and verification, with a reusable cross-project improvement prompt.
+- [Multi-tool visual craft](docs/multi-tool-visual-craft.md): when a site should
+  be richly illustrated versus quiet and typographic, which tool fits each
+  visual job, a per-page visual budget, one-anchor palette derivation,
+  fallbacks, verification, and a reusable prompt. Pattern `wsa-014` shows the
+  result.
 - Prompt handoff includes accessible copy feedback, clipboard-denial recovery,
-  and exact-payload browser checks across all 13 studies.
+  and exact-payload browser checks across every catalog study.
 - Where to pick up next: `docs/handoff.md`.
 - [Modern web guidance for agents](docs/modern-web-guidance.md): a verified
   search/retrieve workflow, compatibility rules, modernization candidates,
@@ -63,6 +69,7 @@ Add a new object to `src/data/websiteStyles.ts` with:
 - fit, tone, complexity, tags, and score
 - visual tokens
 - MVP sections, techniques, build notes, and starter prompt
+- unique title, at most six items in `sections` and `techniques` (the detail view shows six), and an updated `wsa-011` Patterns metric
 
 Keep entries practical: the goal is not to clone a site, but to capture the
 design and implementation decisions that make a strong MVP easier to build.
