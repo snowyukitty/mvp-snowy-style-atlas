@@ -223,23 +223,21 @@ function PreviewBody({ item }: { item: WebsiteStyle }) {
           >
             <svg viewBox="0 0 240 180" className="h-full w-full">
               {/* Matte cut-paper/gouache spot vignette floating on open warm paper */}
-              <ellipse cx="122" cy="144" rx="64" ry="8" fill="var(--demo-ink)" fillOpacity="0.12" />
+              <ellipse cx="122" cy="144" rx="64" ry="8" style={{ fill: "var(--demo-ink)", fillOpacity: 0.12 }} />
               <path
                 d="M66 132 C58 96, 72 52, 110 46 C142 42, 162 68, 156 108 C152 128, 134 138, 104 138 C84 138, 70 136, 66 132 Z"
-                fill="var(--demo-secondary)"
-                fillOpacity="0.86"
+                style={{ fill: "var(--demo-secondary)", fillOpacity: 0.86 }}
               />
               <path
                 d="M110 136 C106 104, 124 72, 154 68 C178 65, 192 86, 186 116 C181 134, 164 140, 138 140 C122 140, 112 139, 110 136 Z"
-                fill="var(--demo-accent)"
-                fillOpacity="0.9"
+                style={{ fill: "var(--demo-accent)", fillOpacity: 0.9 }}
               />
-              <circle cx="96" cy="86" r="14" fill="var(--demo-surface)" fillOpacity="0.92" />
+              <circle cx="96" cy="86" r="14" style={{ fill: "var(--demo-surface)", fillOpacity: 0.92 }} />
               {/* Measured callout rule symbolizing data-driven diagram companion */}
-              <line x1="24" y1="158" x2="216" y2="158" stroke="var(--demo-ink)" strokeOpacity="0.35" strokeWidth="1" />
-              <line x1="24" y1="154" x2="24" y2="162" stroke="var(--demo-ink)" strokeOpacity="0.45" strokeWidth="1" />
-              <line x1="120" y1="155" x2="120" y2="161" stroke="var(--demo-ink)" strokeOpacity="0.35" strokeWidth="1" />
-              <line x1="216" y1="154" x2="216" y2="162" stroke="var(--demo-ink)" strokeOpacity="0.45" strokeWidth="1" />
+              <line x1="24" y1="158" x2="216" y2="158" style={{ stroke: "var(--demo-ink)", strokeOpacity: 0.35 }} strokeWidth="1" />
+              <line x1="24" y1="154" x2="24" y2="162" style={{ stroke: "var(--demo-ink)", strokeOpacity: 0.45 }} strokeWidth="1" />
+              <line x1="120" y1="155" x2="120" y2="161" style={{ stroke: "var(--demo-ink)", strokeOpacity: 0.35 }} strokeWidth="1" />
+              <line x1="216" y1="154" x2="216" y2="162" style={{ stroke: "var(--demo-ink)", strokeOpacity: 0.45 }} strokeWidth="1" />
             </svg>
           </div>
           <figcaption className="font-mono text-[10px] uppercase opacity-75">

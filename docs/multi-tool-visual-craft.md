@@ -42,21 +42,21 @@ lane is unavailable.
 | --- | --- | --- | --- |
 | Taste, palette and medium direction | Owner's style atlas export (`exports/favorites.json`: `palette_hex`, `medium`, `card`) | Single taste authority with honest per-domain evidence and artist-free rules | None — stop and choose one anchor palette before designing |
 | Brand mark, favicon and PWA icons | Audited SVG icon pipeline (`ai-iconflow`, 16 px proof) | Tiny sizes require audited silhouette geometry and real 16 px verification | Plain typographic wordmark; never a hand-rolled ad-hoc favicon |
-| Warm characters, cozy portraits, storybook / cut-paper / riso vignettes | Raster illustration brief pipeline (`web-img` + composed favorite style brief) | Matches human-scored character and painterly vignette evidence | Editable canvas object/scene vignette (without a face), or omit the slot |
-| Objects, tools, workshop scenes, editorial diagrams in gouache, watercolor or graphite | Editable Canvas2D painting (`codebrush`, local look-and-revise loop) | Revisable in code, zero cloud dependency, controllable geometry and paper margins | Clean inline SVG line drawing |
+| Warm characters, cozy portraits, storybook / cut-paper / riso vignettes | Raster illustration brief pipeline (composed favorite style brief) | Matches human-scored character and painterly vignette evidence | Editable Canvas2D object/scene vignette (without a face), or omit the slot |
+| Objects, tools, workshop scenes, editorial diagrams in gouache, watercolor or graphite | Editable Canvas2D painting kit (local look-and-revise render loop) | Revisable in code, zero cloud dependency, controllable geometry and paper margins | Clean inline SVG line drawing |
 | Data, comparisons, clearances, blueprints and parametric visuals | Hand-authored data-driven SVG | Numbers must stay exact, selectable and accessible; never paint charts into pixels | Accessible HTML table |
 | Live UI theater and product proof | Real components or faithful CSS mockups (`wsa-001` technique) | Shows the real interaction and state language | Annotated static screenshot with descriptive alt text |
 
 ### Tie-breakers
 
 1. If the focal subject needs a **readable face or warm character**, start with
-   the raster brief pipeline (`web-img`).
+   the raster illustration brief pipeline.
 2. If the focal subject needs **exact proportions, crisp labels or iterative
-   structural edits**, use editable canvas painting (`codebrush`) or inline SVG.
+   structural edits**, use editable Canvas2D painting or inline SVG.
 3. If the visual carries **numbers, coordinates or measurements**, use
    data-driven SVG—never rasterize charts or paint labels into a bitmap.
 4. If the raster service is unavailable (for example quota or capacity errors),
-   editable canvas painting takes over objects and scenes. Never substitute a
+   editable Canvas2D painting takes over objects and scenes. Never substitute a
    generic stock image, AI gradient blob or glossy 3D render.
 
 ## Visual-layer budget per page
@@ -99,8 +99,8 @@ diagrams—should derive from **one** anchor style:
      text and links reach **4.5:1** on `background` (**3:1** is acceptable only
      for large headings or non-text strokes/marks).
 3. Feed each visual tool from the same anchor:
-   - **Raster briefs (`web-img`):** compose directly from the anchor style.
-   - **Canvas paintings (`codebrush`):** use the four raw `palette_hex` tones
+   - **Raster illustration briefs:** compose directly from the anchor style.
+   - **Editable Canvas2D paintings:** use the four raw `palette_hex` tones
      plus the anchor card's `material`, `light` and `composition` notes (painted
      fills do not need UI text contrast).
    - **Icons (`ai-iconflow`):** use `ink` and the derived `accent` so the 16 px
@@ -122,8 +122,8 @@ When an asset lane is blocked or misses the taste bar after two revisions, step
 down deliberately rather than shipping filler:
 
 ```text
-raster plate (web-img)
-  → editable canvas vignette (codebrush, object/scene without face)
+raster illustration plate
+  → editable Canvas2D vignette (object/scene without face)
     → inline SVG line art
       → balanced no-image layout (aspect-ratio / paper-tone rhythm preserved)
 ```
@@ -171,8 +171,8 @@ should be illustrated, then—where already authorized—implement it.
 2. Anchor taste. Pick one favorite style from the owner's style atlas export
    (palette_hex, medium, direction card) and record its id and content hash.
    Derive background, ink, secondary and accent from that single palette;
-   darken UI text colors until body text reaches 4.5:1 and primary ink reaches
-   7:1. Painted plates may keep the raw palette tones.
+   darken UI text colors until primary ink/body text reaches 7:1 and secondary
+   and accent UI text reach 4.5:1. Painted plates may keep the raw palette tones.
 3. Match each visual job to the right tool: brand marks and favicons through
    the audited SVG icon pipeline (verified at 16px); warm characters and cozy
    vignettes through the raster illustration brief pipeline; objects, tools and

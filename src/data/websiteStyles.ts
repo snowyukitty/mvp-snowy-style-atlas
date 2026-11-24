@@ -1170,7 +1170,7 @@ export const websiteStyles: WebsiteStyle[] = [
     sourceNotes: [
       "Distilled from one warm technical/editorial site upgrade and owner feedback; qualitative, not a measured study. Method in docs/multi-tool-visual-craft.md.",
       "Study how the references pair one drawing with one idea; redraw everything. No asset, copy or code from the reference sites is reusable.",
-      "Palette and medium come from one anchor style in the owner's style atlas export; agent inspection of the art is not owner approval."
+      "Palette shown here is an illustrative warm-paper derivation checked for text contrast; real projects anchor to one chosen style in the owner's style atlas export, and agent inspection of the art is not owner approval."
     ],
     visual: {
       background: "#f4ecdd",
